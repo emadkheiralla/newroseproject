@@ -32,24 +32,27 @@ export class AppComponent{
 
   onChange(event) {
     this.chosenDogs = [];
-    if(this.dogCompound.value){
-      this.chosenDogs.push(this.dogCompound.value)
+    if(this.dogCompound.value['name'] !== this.dogMechanism.value['name']){
+      
+      if(this.dogCompound.value){
+        this.chosenDogs.push(this.dogCompound.value)
+      }
+      if(this.dogMechanism.value){
+        this.chosenDogs.push(this.dogMechanism.value)
+      }
+    } else {
+      if(event.target.name === 'compound'){
+        this.chosenDogs.push(this.dogCompound.value)
+      } 
+      
+      if(event.target.name === 'mechanism'){
+        this.chosenDogs.push(this.dogMechanism.value)
+      }
     }
-    if(this.dogMechanism.value){
-      this.chosenDogs.push(this.dogMechanism.value)
-    }
-    
-    // if(event.target.name === 'compound'){
-    //   this.chosenDogs.push(this.dogCompound.value)
-    // } 
-    
-    // if(event.target.name === 'mechanism'){
-    //   this.chosenDogs.push(this.dogMechanism.value)
-    // }
+
     if(this.table){
       this.table.renderRows();
     }
-    
   }
 
   onSubmit() {
