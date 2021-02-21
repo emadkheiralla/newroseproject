@@ -320,28 +320,58 @@
     <div class="row custom-wrapper">
        <div class="col-md-12">
           <!-- Form starts -->
-          <form [formGroup]="myForm" (ngSubmit)="onSubmit()">
+          <form [formGroup]="myForm">
           <div class="group-gap">
              <div class="d-block my-3">
                 <div class="mb-3">
-                   <select class="custom-select" formControlName="dogName">
-                      <option value="">Choose your dog breed</option>
-                      <option *ngFor="let dog of Dogs" [ngValue]="dog">{{dog.breed}}</option>
+                   <select class="custom-select" formControlName="compound" name="compound" (change)="onChange($event)">
+                      <option value="">Choose a compound</option>
+                      <option *ngFor="let dog of Dogs" [ngValue]="dog">{{dog.compound}}</option>
                    </select>
-                   <!-- error block -->
-                   <div class="invalid-feedback" *ngIf="isSubmitted && dog.errors.required">
-                      <sup>*</sup>Please enter your city name
-                   </div>
                 </div>
+                <div class="mb-3">
+                  <select class="custom-select" formControlName="mechanism" name="mechanism" (change)="onChange($event)">
+                     <option value="">Choose a mechanism</option>
+                     <option *ngFor="let dog of Dogs" [ngValue]="dog">{{dog.mechanism}}</option>
+                  </select>
+                  
+               </div>
              </div>
           </div>
           
           <br>
-          <pre style="font-size: xx-large;" *ngIf="dog.value !== ''">{{ dog.value | json }}</pre>  
+          <!-- <pre style="font-size: xx-large;" *ngIf="dog.value !== ''">{{ dog.value | json }}</pre>   -->
         
         </form><!-- Form ends -->
 
-          
+        <table *ngIf="chosenDogs.length > 0" mat-table [dataSource]="chosenDogs" class="mat-elevation-z8">
+
+          <!--- Note that these columns can be defined in any order.
+                The actual rendered columns are set as a property on the row definition" -->
+
+          <ng-container matColumnDef="name">
+            <th style="font-weight: bolder; text-decoration: underline;" mat-header-cell *matHeaderCellDef> Name </th>
+            <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="compound">
+            <th style="font-weight: bolder; text-decoration: underline;" mat-header-cell *matHeaderCellDef> Compound </th>
+            <td mat-cell *matCellDef="let element"> {{element.compound}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="mechanism">
+            <th style="font-weight: bolder; text-decoration: underline;" mat-header-cell *matHeaderCellDef> Mechanism </th>
+            <td mat-cell *matCellDef="let element"> {{element.mechanism}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="breed">
+            <th style="font-weight: bolder; text-decoration: underline;" mat-header-cell *matHeaderCellDef> Breed </th>
+            <td mat-cell *matCellDef="let element"> {{element.breed}} </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
        </div>
     </div>
  </div>
