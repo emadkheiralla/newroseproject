@@ -326,13 +326,13 @@
                 <div class="mb-3">
                    <select class="custom-select" formControlName="compound" name="compound" (change)="onChange($event)">
                       <option value="">Choose a compound</option>
-                      <option *ngFor="let dog of Dogs" [ngValue]="dog">{{dog.compound}}</option>
+                      <option *ngFor="let comp of compounds" [ngValue]="comp">{{comp}}</option>
                    </select>
                 </div>
                 <div class="mb-3">
                   <select class="custom-select" formControlName="mechanism" name="mechanism" (change)="onChange($event)">
                      <option value="">Choose a mechanism</option>
-                     <option *ngFor="let dog of Dogs" [ngValue]="dog">{{dog.mechanism}}</option>
+                     <option *ngFor="let mech of mechanisms" [ngValue]="mech">{{mech}}</option>
                   </select>
                   
                </div>
