@@ -1,4 +1,5 @@
-import { Component, ViewChild } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, Validators } from "@angular/forms";
 import {MatTable} from '@angular/material/table';
 
@@ -7,13 +8,16 @@ import {MatTable} from '@angular/material/table';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent{
+export class AppComponent implements OnInit{
   title = 'new-rose-project';
   isSubmitted = false;
-  Dogs = [{name: '001', compound: 'cp1', mechanism: 'mec1', breed: 'Beagle'}, {name: '002', compound: 'cp2', mechanism: 'mec2', breed: 'Pitbull'}, {name: '003', compound: 'cp3', mechanism: 'mec3', breed: 'Terrier'}, {name: '004', compound: 'cp4', mechanism: 'mec4', breed: 'Beagle'}]
+  Dogs = [{name: '001', compound: 'cp1', mechanism: 'mec1', breed: 'Beagle'},
+          {name: '002', compound: 'cp2', mechanism: 'mec2', breed: 'Pitbull'},
+          {name: '003', compound: 'cp3', mechanism: 'mec3', breed: 'Terrier'},
+          {name: '004', compound: 'cp4', mechanism: 'mec4', breed: 'Beagle'}];
   chosenDogs = [];
   @ViewChild(MatTable) table: MatTable<any>;
-  constructor(public fb: FormBuilder) { }
+  constructor(public fb: FormBuilder, private http: HttpClient) { }
 
   /*########### Form ###########*/
   myForm = this.fb.group({
@@ -64,4 +68,14 @@ export class AppComponent{
     }
 
   }
+
+  ngOnInit(){
+    let headers = new HttpHeaders();
+    headers = headers.set('Access-Control-Allow-Origin', '*');
+    this.http.get('localhost:8080/search/compound', {headers}).subscribe((data) => {
+      console.log(typeof data);
+      console.log('Data: ', data);
+    });
+  }
+
 }
