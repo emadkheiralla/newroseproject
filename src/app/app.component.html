@@ -320,7 +320,7 @@
     <div class="row custom-wrapper">
        <div class="col-md-12">
           <!-- Form starts -->
-          <form [formGroup]="myForm">
+          <form [formGroup]="myForm" (ngSubmit)="onSubmit()">
           <div class="group-gap">
              <div class="d-block my-3">
                 <div class="mb-3">
@@ -338,7 +338,7 @@
                </div>
              </div>
           </div>
-          
+          <button class="btn btn-primary" type="submit">Submit</button>
           <br>
           <!-- <pre style="font-size: xx-large;" *ngIf="dog.value !== ''">{{ dog.value | json }}</pre>   -->
         

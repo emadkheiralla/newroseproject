@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, Validators } from "@angular/forms";
 import {MatTable} from '@angular/material/table';
@@ -67,7 +67,11 @@ export class AppComponent implements OnInit{
     if (this.myForm.invalid) {
       return false;
     } else {
-      alert(JSON.stringify(this.myForm.value))
+      let headers = new HttpHeaders();
+      headers = headers.set('Access-Control-Allow-Origin', '*');
+      this.http.get('localhost:8080/search/studyInfo?' + "compounds=" + this.dogCompound.value + "&mechanisms=" + this.dogMechanism.value, {headers}).subscribe((data) => {
+        console.log('Data: ', data);
+      });
     }
 
   }
