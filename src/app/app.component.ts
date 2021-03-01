@@ -18,7 +18,7 @@ export class AppComponent implements OnInit{
 
   compounds: any;
   mechanisms: any;
-  chosenDogs = [];
+  chosenDogs: any;
   @ViewChild(MatTable) table: MatTable<any>;
   constructor(public fb: FormBuilder, private http: HttpClient) { }
 
@@ -62,15 +62,23 @@ export class AppComponent implements OnInit{
     }
   }
 
+  onClear(){
+    this.myForm.reset();
+  }
+
   onSubmit() {
     this.isSubmitted = true;
+    this.chosenDogs = [];
     if (this.myForm.invalid) {
       return false;
     } else {
       let headers = new HttpHeaders();
       headers = headers.set('Access-Control-Allow-Origin', '*');
       this.http.get('localhost:8080/search/studyInfo?' + "compounds=" + this.dogCompound.value + "&mechanisms=" + this.dogMechanism.value, {headers}).subscribe((data) => {
-        console.log('Data: ', data);
+        this.chosenDogs = data;
+        if(this.table){
+          this.table.renderRows();
+        }
       });
     }
 
