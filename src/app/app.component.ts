@@ -16,9 +16,9 @@ export class AppComponent implements OnInit{
   //         {name: '003', compound: 'cp3', mechanism: 'mec3', breed: 'Terrier'},
   //         {name: '004', compound: 'cp4', mechanism: 'mec4', breed: 'Beagle'}];
 
-  compounds: any;
+  compounds: any ;
   mechanisms: any;
-  chosenDogs: any;
+  chosenDogs: any = [];
   @ViewChild(MatTable) table: MatTable<any>;
   constructor(public fb: FormBuilder, private http: HttpClient) { }
 
@@ -27,7 +27,7 @@ export class AppComponent implements OnInit{
     compound: [''],
     mechanism: ['']
   })
-  displayedColumns: string[] = ['name', 'compound', 'mechanism', 'breed' ];
+  displayedColumns: string[] = ['studyId', 'compound', 'mechanism', 'testSite', 'route', 'species', 'duration', 'durationUnit', 'species' ];
   // Getter method to access formcontrols
   get dogCompound() {
     return this.myForm.get('compound');
@@ -63,7 +63,7 @@ export class AppComponent implements OnInit{
   }
 
   onClear(){
-    this.myForm.reset();
+    this.myForm.reset(this.myForm.value);
   }
 
   onSubmit() {
@@ -74,12 +74,14 @@ export class AppComponent implements OnInit{
     } else {
       let headers = new HttpHeaders();
       headers = headers.set('Access-Control-Allow-Origin', '*');
-      this.http.get('localhost:8080/search/studyInfo?' + "compounds=" + this.dogCompound.value + "&mechanisms=" + this.dogMechanism.value, {headers}).subscribe((data) => {
-        this.chosenDogs = data;
-        if(this.table){
-          this.table.renderRows();
-        }
-      });
+      if(this.dogCompound.value !== 'Choose a compound' && this.dogMechanism.value !== 'Choose a mechanism'){
+        this.http.get('localhost:8080/search/studyInfo?' + "compounds=" + this.dogCompound.value + "&mechanisms=" + this.dogMechanism.value, {headers}).subscribe((data) => {
+          this.chosenDogs = data;
+          if(this.table){
+            this.table.renderRows();
+          }
+        });
+      } 
     }
 
   }

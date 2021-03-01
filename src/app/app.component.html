@@ -324,14 +324,14 @@
           <div class="group-gap">
              <div class="d-block my-3">
                 <div class="mb-3">
-                   <select class="custom-select" formControlName="compound" name="compound" (change)="onChange($event)">
+                   <select class="custom-select" formControlName="compound" name="compound" >
                       <option value="">Choose a compound</option>
                       <option *ngFor="let comp of compounds" [ngValue]="comp">{{comp}}</option>
                    </select>
                 </div>
                 <div class="mb-3">
-                  <select class="custom-select" formControlName="mechanism" name="mechanism" (change)="onChange($event)">
-                     <option value="">Choose a mechanism</option>
+                  <select class="custom-select" formControlName="mechanism" name="mechanism">
+                     <option value="">Choose a mechanism</option> 
                      <option *ngFor="let mech of mechanisms" [ngValue]="mech">{{mech}}</option>
                   </select>
                   
