@@ -37,30 +37,30 @@ export class AppComponent implements OnInit{
     return this.myForm.get('mechanism');
   }
 
-  onChange(event) {
-    this.chosenDogs = [];
-    if(this.dogCompound.value['name'] !== this.dogMechanism.value['name']){
+  // onChange(event) {
+  //   this.chosenDogs = [];
+  //   if(this.dogCompound.value['name'] !== this.dogMechanism.value['name']){
       
-      if(this.dogCompound.value){
-        this.chosenDogs.push(this.dogCompound.value)
-      }
-      if(this.dogMechanism.value){
-        this.chosenDogs.push(this.dogMechanism.value)
-      }
-    } else {
-      if(event.target.name === 'compound'){
-        this.chosenDogs.push(this.dogCompound.value)
-      } 
+  //     if(this.dogCompound.value){
+  //       this.chosenDogs.push(this.dogCompound.value)
+  //     }
+  //     if(this.dogMechanism.value){
+  //       this.chosenDogs.push(this.dogMechanism.value)
+  //     }
+  //   } else {
+  //     if(event.target.name === 'compound'){
+  //       this.chosenDogs.push(this.dogCompound.value)
+  //     } 
       
-      if(event.target.name === 'mechanism'){
-        this.chosenDogs.push(this.dogMechanism.value)
-      }
-    }
+  //     if(event.target.name === 'mechanism'){
+  //       this.chosenDogs.push(this.dogMechanism.value)
+  //     }
+  //   }
 
-    if(this.table){
-      this.table.renderRows();
-    }
-  }
+  //   if(this.table){
+  //     this.table.renderRows();
+  //   }
+  // }
 
   onClear(){
     this.myForm.reset(this.myForm.value);
@@ -75,7 +75,7 @@ export class AppComponent implements OnInit{
       let headers = new HttpHeaders();
       headers = headers.set('Access-Control-Allow-Origin', '*');
       if(this.dogCompound.value !== 'Choose a compound' && this.dogMechanism.value !== 'Choose a mechanism'){
-        this.http.get('localhost:8080/search/studyInfo?' + "compounds=" + this.dogCompound.value + "&mechanisms=" + this.dogMechanism.value, {headers}).subscribe((data) => {
+        this.http.get('localhost:8080/search/studyInfo?' + "compounds=" + this.dogCompound.value + "&mechanisms=" + this.dogMechanism.value, { 'headers': headers}).subscribe((data) => {
           this.chosenDogs = data;
           if(this.table){
             this.table.renderRows();
