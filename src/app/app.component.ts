@@ -17,8 +17,8 @@ export class AppComponent implements OnInit{
   //         {name: '003', compound: 'cp3', mechanism: 'mec3', breed: 'Terrier'},
   //         {name: '004', compound: 'cp4', mechanism: 'mec4', breed: 'Beagle'}];
 
-  compounds = ['this', 'that', 'and', 'the', 'third'];
-  mechanisms= ['this', 'that', 'and', 'the', 'third'];
+  compounds: any;
+  mechanisms: any;
   chosenDogs: any = [];
   baseURL = 'localhost:8080/search/';
   @ViewChild(MatTable) table: MatTable<any>;
