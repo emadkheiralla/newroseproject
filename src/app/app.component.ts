@@ -19,13 +19,14 @@ export class AppComponent implements OnInit{
   compounds: any ;
   mechanisms: any;
   chosenDogs: any = [];
+  baseURL = 'localhost:8080/search/';
   @ViewChild(MatTable) table: MatTable<any>;
   constructor(public fb: FormBuilder, private http: HttpClient) { }
 
   /*########### Form ###########*/
   myForm = this.fb.group({
-    compound: ['', Validators.required],
-    mechanism: ['', ]
+    compound: [''],
+    mechanism: ['']
   })
   displayedColumns: string[] = ['studyId', 'compound', 'mechanism', 'testSite', 'route', 'species', 'duration', 'durationUnit', 'species' ];
   // Getter method to access formcontrols
@@ -74,17 +75,16 @@ export class AppComponent implements OnInit{
     } else {
       let headers = new HttpHeaders();
       headers.set('Access-Control-Allow-Origin', '*');
-      this.http.get('localhost:8080/search/studyInfo?' + "compounds=" + this.dogCompound.value + "&mechanisms=" + this.dogMechanism.value, {headers}).subscribe((data) => {
-        this.chosenDogs = data;
-        if(this.table){
-          this.table.renderRows();
-        }
-      });
-      // if(this.dogCompound.value !== 'Choose a compound' || this.dogMechanism.value !== 'Choose a mechanism'){
-        
-      // } else {
-      //   console.log('You must choose either a compound or mechanism');
-      // }
+      if(this.dogCompound.value !== 'Choose a compound' && this.dogMechanism.value !== 'Choose a mechanism'){
+        this.http.get(this.baseURL + "studyInfo?" + "compounds=" + this.dogCompound.value + "&mechanisms=" + this.dogMechanism.value, {headers}).subscribe((data) => {
+          this.chosenDogs = data;
+          if(this.table){
+            this.table.renderRows();
+          }
+        });
+      } else {
+        console.log('You must choose either a compound or mechanism');
+      }
     }
 
   }
@@ -92,13 +92,13 @@ export class AppComponent implements OnInit{
   ngOnInit(){
     let headers = new HttpHeaders();
     headers = headers.set('Access-Control-Allow-Origin', '*');
-    this.http.get('localhost:8080/search/compound', {headers}).subscribe((data) => {
+    this.http.get(this.baseURL + 'compound', {headers}).subscribe((data) => {
       // console.log(typeof data);
       // console.log('Data: ', data);
       this.compounds = data;
     });
 
-    this.http.get('localhost:8080/search/mechanism', {headers}).subscribe((data) => {
+    this.http.get(this.baseURL + 'mechanism', {headers}).subscribe((data) => {
       // console.log(typeof data);
       // console.log('Data: ', data);
       this.mechanisms = data;
