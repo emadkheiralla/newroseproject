@@ -24,8 +24,8 @@ export class AppComponent implements OnInit{
 
   /*########### Form ###########*/
   myForm = this.fb.group({
-    compound: [''],
-    mechanism: ['']
+    compound: ['', Validators.required],
+    mechanism: ['', ]
   })
   displayedColumns: string[] = ['studyId', 'compound', 'mechanism', 'testSite', 'route', 'species', 'duration', 'durationUnit', 'species' ];
   // Getter method to access formcontrols
@@ -74,14 +74,17 @@ export class AppComponent implements OnInit{
     } else {
       let headers = new HttpHeaders();
       headers.set('Access-Control-Allow-Origin', '*');
-      if(this.dogCompound.value !== 'Choose a compound' && this.dogMechanism.value !== 'Choose a mechanism'){
-        this.http.get('localhost:8080/search/studyInfo?' + "compounds=" + this.dogCompound.value + "&mechanisms=" + this.dogMechanism.value, {headers}).subscribe((data) => {
-          this.chosenDogs = data;
-          if(this.table){
-            this.table.renderRows();
-          }
-        });
-      } 
+      this.http.get('localhost:8080/search/studyInfo?' + "compounds=" + this.dogCompound.value + "&mechanisms=" + this.dogMechanism.value, {headers}).subscribe((data) => {
+        this.chosenDogs = data;
+        if(this.table){
+          this.table.renderRows();
+        }
+      });
+      // if(this.dogCompound.value !== 'Choose a compound' || this.dogMechanism.value !== 'Choose a mechanism'){
+        
+      // } else {
+      //   console.log('You must choose either a compound or mechanism');
+      // }
     }
 
   }
