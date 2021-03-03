@@ -75,7 +75,7 @@ export class AppComponent implements OnInit{
     } else {
       let headers = new HttpHeaders();
       headers.set('Access-Control-Allow-Origin', '*');
-      if(this.dogCompound.value !== 'Choose a compound' && this.dogMechanism.value !== 'Choose a mechanism'){
+      if(this.dogCompound.value.length > 0 || this.dogMechanism.value.length > 0){
         this.http.get(this.baseURL + "studyInfo?" + "compounds=" + this.dogCompound.value + "&mechanisms=" + this.dogMechanism.value, {headers}).subscribe((data) => {
           this.chosenDogs = data;
           if(this.table){
