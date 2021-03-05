@@ -64,6 +64,11 @@ export class AppComponent implements OnInit{
     }
   }
 
+  onClear(){
+    this.dogCompound.setValue('');
+    this.dogMechanism.setValue('');
+  }
+
   onSubmit() {
     this.isSubmitted = true;
     this.chosenDogs = [];
@@ -73,26 +78,26 @@ export class AppComponent implements OnInit{
       let headers = new HttpHeaders();
       headers.set('Access-Control-Allow-Origin', '*');
       if(this.dogCompound.value.length > 0 && this.dogMechanism.value.length > 0){
-        this.http.get(this.baseURL + "studyInfo?" + "compounds=" + this.dogCompound.value + "&mechanisms=" + this.dogMechanism.value, {headers}).subscribe((data) => {
-          this.chosenDogs = data;
-          if(this.table){
-            this.table.renderRows();
-          }
-        });
+          this.http.get(this.baseURL + "studyInfo?" + "compounds=" + this.dogCompound.value + "&mechanisms=" + this.dogMechanism.value, {headers}).subscribe((data) => {
+            this.chosenDogs = data;
+            if(this.table){
+              this.table.renderRows();
+            }
+          });
       } else if(this.dogCompound.value.length > 0 && this.dogMechanism.value.length === 0) {
-        this.http.get(this.baseURL + "studyInfo?" + "compounds=" + this.dogCompound.value, {headers}).subscribe((data) => {
-          this.chosenDogs = data;
-          if(this.table){
-            this.table.renderRows();
-          }
-        });
+          this.http.get(this.baseURL + "studyInfo?" + "compounds=" + this.dogCompound.value, {headers}).subscribe((data) => {
+            this.chosenDogs = data;
+            if(this.table){
+              this.table.renderRows();
+            }
+          });
       } else if(this.dogCompound.value.length === 0 && this.dogMechanism.value.length > 0){
-        this.http.get(this.baseURL + "studyInfo?" + "mechanisms=" + this.dogMechanism.value, {headers}).subscribe((data) => {
-          this.chosenDogs = data;
-          if(this.table){
-            this.table.renderRows();
-          }
-        });
+          this.http.get(this.baseURL + "studyInfo?" + "mechanisms=" + this.dogMechanism.value, {headers}).subscribe((data) => {
+            this.chosenDogs = data;
+            if(this.table){
+              this.table.renderRows();
+            }
+          });
       } else {
         this.showAlert = true;
         return false;
@@ -102,19 +107,19 @@ export class AppComponent implements OnInit{
   }
 
   ngOnInit(){
-    // let headers = new HttpHeaders();
-    // headers = headers.set('Access-Control-Allow-Origin', '*');
-    // this.http.get(this.baseURL + 'compound', {headers}).subscribe((data) => {
-    //   // console.log(typeof data);
-    //   // console.log('Data: ', data);
-    //   this.compounds = data;
-    // });
+    let headers = new HttpHeaders();
+    headers = headers.set('Access-Control-Allow-Origin', '*');
+    this.http.get(this.baseURL + 'compound', {headers}).subscribe((data) => {
+      // console.log(typeof data);
+      // console.log('Data: ', data);
+      this.compounds = data;
+    });
 
-    // this.http.get(this.baseURL + 'mechanism', {headers}).subscribe((data) => {
-    //   // console.log(typeof data);
-    //   // console.log('Data: ', data);
-    //   this.mechanisms = data;
-    // });
+    this.http.get(this.baseURL + 'mechanism', {headers}).subscribe((data) => {
+      // console.log(typeof data);
+      // console.log('Data: ', data);
+      this.mechanisms = data;
+    });
   }
 
 }
